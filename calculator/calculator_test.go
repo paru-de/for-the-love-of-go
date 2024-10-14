@@ -11,6 +11,6 @@ func TestAdd(t *testing.T) {
 	got := calculator.Add(2,2)
 
 	if want != got {
-		t.Errorf("want %f, got %f, want, got")
+		t.Errorf("want %f, got %f", want, got)
 	}
 }
