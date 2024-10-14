@@ -1,6 +1,7 @@
 package calculator_test
 
 import (
+	"math"
 	"testing"
 
 	"calculator"
@@ -9,6 +10,10 @@ import (
 type testCase struct {
 	a, b float64
 	want float64
+}
+
+func closeEnough(a, b, tolerance float64) bool {
+	return math.Abs(a-b) <= tolerance
 }
 
 func TestAdd(t *testing.T) {
@@ -67,6 +72,7 @@ func TestDivide(t *testing.T) {
 		{a: 10, b: 2, want: 5},
 		{a: 1, b: -1, want: -1},
 		{a: 5, b: -2.5, want: -2},
+		{a: 1, b: 3, want: 0.333333},
 	}
 
 	for _, tc := range testCases {
@@ -74,7 +80,7 @@ func TestDivide(t *testing.T) {
 		if err != nil {
 			t.Fatalf("want no error for valid input, got %v", err)
 		}
-		if tc.want != got {
+		if !closeEnough(tc.want, got, 0.001) {
 			t.Errorf("Divide(%f, %f): want %f, got %f", tc.a, tc.b, tc.want, got)
 		}
 	}
