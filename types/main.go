@@ -3,12 +3,14 @@ package main
 import "fmt"
 
 func main() {
+	// Book represents information about a book.
 	type Book struct {
 		Title, Author   string
 		Copies, Edition int
 		Promotion       bool
 		SpecialOffer    float64
 	}
+	// Customer represents information about a customer.
 	type Customer struct {
 		Name, FirstName, Email, Street, State, Country, City string
 		StreetNumber, ZIP                                    int
@@ -36,7 +38,7 @@ func main() {
 
 	fmt.Printf("Logged in as %s. Welcome %s %s!\n\n", c.Email, c.FirstName, c.Name)
 	fmt.Printf("Shipping address:\n%s %s\n%s %d\n%d %s\n%s-%s\n\n", c.FirstName, c.Name, c.Street, c.StreetNumber, c.ZIP, c.City, c.Country, c.State)
-	fmt.Printf("%s: %s (%d. edition)\n", b.Author, b.Title, b.Edition)
+	fmt.Printf("Search results:\n%s: %s (%d. edition)\n", b.Author, b.Title, b.Edition)
 	fmt.Printf("Copies in stock: %d\n", b.Copies)
 
 	if b.Promotion {
