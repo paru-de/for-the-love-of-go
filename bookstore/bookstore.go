@@ -19,12 +19,12 @@ func Buy(b Book) (Book, error) {
 	return b, nil
 }
 
-// Get a slice of all books available in the catalogue
+// GetAllBooks returns a slice of all books available in the catalogue
 func GetAllBooks(catalog []Book) []Book {
 	return catalog
 }
 
-// Get the title of a book using its unique ID
+// GetBook returns the title of a book using its unique ID
 func GetBook(catalog []Book, id int) (title string, err error) {
 	bookIndex := slices.IndexFunc(catalog, func(b Book) bool {
 		return b.ID == id
