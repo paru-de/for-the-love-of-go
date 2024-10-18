@@ -69,12 +69,12 @@ func TestGetBook(t *testing.T) {
 		{Title: "For the Love of Go", ID: 1},
 		{Title: "The Power of Go: Tools", ID: 2},
 	}
-	want := "The Power of Go: Tools"
+	want := bookstore.Book{Title: "The Power of Go: Tools", ID: 2}
 
 	got, _ := bookstore.GetBook(catalog, 2)
 
-	if want != got {
-		t.Errorf("wanted '%s' but got '%s'", want, got)
+	if !cmp.Equal(want, got) {
+		t.Error(cmp.Diff(want, got))
 	}
 }
 
@@ -82,6 +82,15 @@ func TestGetBookNotFound(t *testing.T) {
 	t.Parallel()
 	catalog := []bookstore.Book{{Title: "The Hobbit", ID: 3}}
 	_, err := bookstore.GetBook(catalog, 4)
+	if err == nil {
+		t.Fatal("expected an error, got nil")
+	}
+}
+
+func TestGetBookEmptyCatalog(t *testing.T) {
+	t.Parallel()
+	catalog := []bookstore.Book{}
+	_, err := bookstore.GetBook(catalog, 1)
 	if err == nil {
 		t.Fatal("expected an error, got nil")
 	}

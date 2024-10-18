@@ -24,15 +24,15 @@ func GetAllBooks(catalog []Book) []Book {
 	return catalog
 }
 
-// GetBook returns the title of a book using its unique ID
-func GetBook(catalog []Book, id int) (title string, err error) {
+// GetBook returns book information using its unique ID
+func GetBook(catalog []Book, id int) (BookInfo Book, err error) {
 	bookIndex := slices.IndexFunc(catalog, func(b Book) bool {
 		return b.ID == id
 	})
 
 	if bookIndex != -1 {
-		return catalog[bookIndex].Title, nil
+		return catalog[bookIndex], nil
 	}
 
-	return "", errors.New("book doesn't exist")
+	return BookInfo, errors.New("book doesn't exist")
 }
