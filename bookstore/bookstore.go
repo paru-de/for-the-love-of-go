@@ -15,3 +15,8 @@ func Buy(b Book) (Book, error) {
 	b.Copies--
 	return b, nil
 }
+
+// Get a slice of all books available in the catalogue
+func GetAllBooks(catalog []Book) []Book {
+	return catalog
+}
