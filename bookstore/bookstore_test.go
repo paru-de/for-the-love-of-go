@@ -83,7 +83,7 @@ func TestGetBookNotFound(t *testing.T) {
 	catalog := []bookstore.Book{{Title: "The Hobbit", ID: 3}}
 	_, err := bookstore.GetBook(catalog, 4)
 	if err == nil {
-		t.Fatal("expected an error, got nil")
+		t.Fatal("Book ID doesn't exist: expected an error, got nil")
 	}
 }
 
@@ -92,6 +92,6 @@ func TestGetBookEmptyCatalog(t *testing.T) {
 	catalog := []bookstore.Book{}
 	_, err := bookstore.GetBook(catalog, 1)
 	if err == nil {
-		t.Fatal("expected an error, got nil")
+		t.Fatal("Book Catalog empty: expected an error, got nil")
 	}
 }
