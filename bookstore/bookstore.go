@@ -2,7 +2,6 @@ package bookstore
 
 import (
 	"errors"
-	"slices"
 )
 
 type Book struct {
@@ -25,14 +24,24 @@ func GetAllBooks(catalog []Book) []Book {
 }
 
 // GetBook returns book information using its unique ID
-func GetBook(catalog []Book, id int) (bookData Book, err error) {
-	bookIndex := slices.IndexFunc(catalog, func(b Book) bool {
-		return b.ID == id
-	})
-
-	if bookIndex != -1 {
-		return catalog[bookIndex], nil
+// and returns an error if the ID was not found
+func GetBook(catalog map[int]Book, ID int) (Book, error) {
+	_, ok := catalog[ID]
+	if !ok {
+		return Book{}, errors.New("Error: Book ID not found.")
 	}
-
-	return bookData, errors.New("book doesn't exist")
+	return catalog[ID], nil
 }
+
+// old implementation
+// func GetBook(catalog []Book, id int) (bookData Book, err error) {
+// 	bookIndex := slices.IndexFunc(catalog, func(b Book) bool {
+// 		return b.ID == id
+// 	})
+//
+// 	if bookIndex != -1 {
+// 		return catalog[bookIndex], nil
+// 	}
+//
+// 	return bookData, errors.New("book doesn't exist")
+// }

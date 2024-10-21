@@ -1,9 +1,8 @@
 package bookstore_test
 
 import (
-	"testing"
-
 	"bookstore"
+	"testing"
 
 	"github.com/google/go-cmp/cmp"
 )
@@ -65,14 +64,16 @@ func TestGetAllBooks(t *testing.T) {
 
 func TestGetBook(t *testing.T) {
 	t.Parallel()
-	catalog := []bookstore.Book{
-		{Title: "For the Love of Go", ID: 1},
-		{Title: "The Power of Go: Tools", ID: 2},
+	catalog := map[int]bookstore.Book{
+		1: {Title: "For the Love  of Go", ID: 1},
+		2: {Title: "The Power of Go: Tools", ID: 2},
 	}
 	want := bookstore.Book{Title: "The Power of Go: Tools", ID: 2}
 
-	got, _ := bookstore.GetBook(catalog, 2)
-
+	got, err := bookstore.GetBook(catalog, 2)
+	if err != nil {
+		t.Fatal(err)
+	}
 	if !cmp.Equal(want, got) {
 		t.Error(cmp.Diff(want, got))
 	}
@@ -80,18 +81,29 @@ func TestGetBook(t *testing.T) {
 
 func TestGetBookNotFound(t *testing.T) {
 	t.Parallel()
-	catalog := []bookstore.Book{{Title: "The Hobbit", ID: 3}}
-	_, err := bookstore.GetBook(catalog, 4)
+	catalog := map[int]bookstore.Book{
+		1: {},
+	}
+	_, err := bookstore.GetBook(catalog, 2)
 	if err == nil {
-		t.Fatal("Book ID doesn't exist: expected an error, got nil")
+		t.Fatal("ID not found: expected error, got nil")
 	}
 }
 
-func TestGetBookEmptyCatalog(t *testing.T) {
-	t.Parallel()
-	catalog := []bookstore.Book{}
-	_, err := bookstore.GetBook(catalog, 1)
-	if err == nil {
-		t.Fatal("Book Catalog empty: expected an error, got nil")
-	}
-}
+// func TestGetBookNotFound(t *testing.T) {
+// 	t.Parallel()
+// 	catalog := []bookstore.Book{{Title: "The Hobbit", ID: 3}}
+// 	_, err := bookstore.GetBook(catalog, 4)
+// 	if err == nil {
+// 		t.Fatal("Book ID doesn't exist: expected an error, got nil")
+// 	}
+// }
+//
+// func TestGetBookEmptyCatalog(t *testing.T) {
+// 	t.Parallel()
+// 	catalog := []bookstore.Book{}
+// 	_, err := bookstore.GetBook(catalog, 1)
+// 	if err == nil {
+// 		t.Fatal("Book Catalog empty: expected an error, got nil")
+// 	}
+// }
