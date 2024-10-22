@@ -22,7 +22,7 @@ func Buy(b Book) (Book, error) {
 	return b, nil
 }
 
-// GetAllBooks returns a slice of all books available in the catalogue
+// Method GetAllBooks returns a slice of all books available in the catalogue
 func (c Catalog) GetAllBooks() []Book {
 	result := []Book{}
 	for _, b := range c {
@@ -31,14 +31,14 @@ func (c Catalog) GetAllBooks() []Book {
 	return result
 }
 
-// GetBook returns book information using its unique ID
+// Method GetBook returns book information using its unique ID
 // and returns an error if the ID was not found
-func GetBook(catalog map[int]Book, ID int) (Book, error) {
-	_, ok := catalog[ID]
+func (c Catalog) GetBook(ID int) (Book, error) {
+	_, ok := c[ID]
 	if !ok {
 		return Book{}, fmt.Errorf("Error: Book ID %d not found.", ID)
 	}
-	return catalog[ID], nil
+	return c[ID], nil
 }
 
 // Method NetPriceCents returns the price of a book including any discounts
