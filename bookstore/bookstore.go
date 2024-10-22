@@ -11,6 +11,8 @@ type Book struct {
 	PriceCents, DiscountPercent int
 }
 
+type Catalog map[int]Book
+
 // Buy takes type Book as input and updates the remaining Book.Copies count
 func Buy(b Book) (Book, error) {
 	if b.Copies == 0 {
@@ -21,9 +23,9 @@ func Buy(b Book) (Book, error) {
 }
 
 // GetAllBooks returns a slice of all books available in the catalogue
-func GetAllBooks(catalog map[int]Book) []Book {
+func (c Catalog) GetAllBooks() []Book {
 	result := []Book{}
-	for _, b := range catalog {
+	for _, b := range c {
 		result = append(result, b)
 	}
 	return result
@@ -47,16 +49,3 @@ func (b Book) NetPriceCents() (price int) {
 	}
 	return b.PriceCents
 }
-
-// old implementation has a complexity of O(n) (vs. new one with O(1))
-// func GetBook(catalog []Book, id int) (bookData Book, err error) {
-// 	bookIndex := slices.IndexFunc(catalog, func(b Book) bool {
-// 		return b.ID == id
-// 	})
-//
-// 	if bookIndex != -1 {
-// 		return catalog[bookIndex], nil
-// 	}
-//
-// 	return bookData, errors.New("book doesn't exist")
-// }
