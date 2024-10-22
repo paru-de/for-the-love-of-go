@@ -39,8 +39,8 @@ func GetBook(catalog map[int]Book, ID int) (Book, error) {
 	return catalog[ID], nil
 }
 
-// NetPriceCents returns the price of a book including any discounts
-func NetPriceCents(b Book) (price int) {
+// Method NetPriceCents returns the price of a book including any discounts
+func (b Book) NetPriceCents() (price int) {
 	if !(b.DiscountPercent < 1 || b.DiscountPercent > 100) {
 		discountAmount := (b.PriceCents * b.DiscountPercent) / 100
 		return b.PriceCents - discountAmount
