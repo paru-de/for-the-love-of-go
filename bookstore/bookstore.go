@@ -6,8 +6,9 @@ import (
 )
 
 type Book struct {
-	Title, Author string
-	Copies, ID    int
+	Title, Author               string
+	Copies, ID                  int
+	PriceCents, DiscountPercent int
 }
 
 // Buy takes type Book as input and updates the remaining Book.Copies count
@@ -36,6 +37,15 @@ func GetBook(catalog map[int]Book, ID int) (Book, error) {
 		return Book{}, fmt.Errorf("Error: Book ID %d not found.", ID)
 	}
 	return catalog[ID], nil
+}
+
+// NetPriceCents returns the price of a book including any discounts
+func NetPriceCents(b Book) (price int) {
+	if !(b.DiscountPercent < 1 || b.DiscountPercent > 100) {
+		discountAmount := (b.PriceCents * b.DiscountPercent) / 100
+		return b.PriceCents - discountAmount
+	}
+	return b.PriceCents
 }
 
 // old implementation has a complexity of O(n) (vs. new one with O(1))
