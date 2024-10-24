@@ -97,11 +97,40 @@ func TestNetPriceCents(t *testing.T) {
 		Title:           "For the Love of Go",
 		PriceCents:      4000,
 		DiscountPercent: 25,
+		ID:              1,
 	}
 	want := 3000
 	got := b.NetPriceCents()
 
 	if want != got {
 		t.Errorf("NetPriceCents: want %d, got %d", want, got)
+	}
+}
+
+func TestSetPriceInCents(t *testing.T) {
+	t.Parallel()
+	b := bookstore.Book{
+		PriceCents:      4000,
+		DiscountPercent: 25,
+		ID:              2,
+	}
+	want := 3500
+	b.SetPriceInCents(3500)
+	got := b.PriceCents
+	if want != got {
+		t.Errorf("ID %d: expected %d, got %d", b.ID, want, got)
+	}
+}
+
+func TestSetInvalidPrice(t *testing.T) {
+	t.Parallel()
+	b := bookstore.Book{
+		PriceCents: 4000,
+	}
+
+	_, errZero := b.SetPriceInCents(0)
+	_, errNegative := b.SetPriceInCents(-1000)
+	if errZero == nil || errNegative == nil {
+		t.Fatalf("Fatal error: Expected rejection of invalid price, got nil instead")
 	}
 }

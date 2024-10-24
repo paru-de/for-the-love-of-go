@@ -49,3 +49,13 @@ func (b Book) NetPriceCents() (price int) {
 	}
 	return b.PriceCents
 }
+
+// Method SetPriceCents updates the price of a book and returns the total price.
+// It takes a Book struct and a total price in cents as an input
+func (b *Book) SetPriceInCents(new_price int) (int, error) {
+	if new_price <= 0 {
+		return b.PriceCents, errors.New("error: price cant zero or negative")
+	}
+	b.PriceCents = new_price
+	return b.PriceCents, nil
+}
